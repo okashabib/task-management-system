@@ -10,21 +10,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result = mysqli_query($conn, $existing_username);
 
     if (mysqli_num_rows($result) > 0) {
-        echo '<div class="alert alert-danger" role="alert">Username already exists. Please choose a different one.</div>';
+        echo json_encode(array('error' => 'Username already exists. Please choose a different one!'));
     } else {
         if (empty($_POST['id'])) {
             $query = "INSERT INTO `users` (`name`, `username`) VALUES ('$user', '$username')";
             if (mysqli_query($conn, $query)) {
-                echo '<div class="alert alert-primary" role="alert">User inserted successfully.</div>';
+                echo json_encode(array('message' => 'User inserted successfully.'));
             }
         } else {
             $id = $_POST['id'];
             $query = "UPDATE `users` SET `name`='$user', `username`='$username' WHERE `id`='$id'";
             if (mysqli_query($conn, $query)) {
-                echo '<div class="alert alert-primary" role="alert">User updated successfully.</div>';
+                echo json_encode(array('message' => 'User updated successfully.'));
             }
         }
     }
 }
-
-

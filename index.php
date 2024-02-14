@@ -193,10 +193,9 @@ $users = $conn->query("SELECT * FROM  `users`");
                 url: './taskData.php',
                 data: formData,
                 success: function (response) {
-                    let textContent = $(response).text();
 
                     Toastify({
-                        text: textContent,
+                        text: response,
                         duration: 4000,
                         stopOnFocus: true,
                         position: "center",

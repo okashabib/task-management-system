@@ -91,7 +91,7 @@ $select = $conn->query("SELECT * FROM `users`");
                                             $username = $row['username'];
 
                                             ?>
-                                            <tr class="data-tr">
+                                            <tr class="data-tr" id="<?php echo $id ?>">
                                                 <td>
                                                     <?php echo $i++; ?>
                                                 </td>
@@ -102,7 +102,7 @@ $select = $conn->query("SELECT * FROM `users`");
                                                     <?php echo $username; ?>
                                                 </td>
                                                 <td>
-                                                    <button onclick="deleteRow(<?= $id ?>)" class="btn btn-danger"><i
+                                                    <button onclick="deleteRow(this, <?= $id ?>)" class="btn btn-danger"><i
                                                             class="fas fa-trash"></i></button>
                                                     <button onclick="editRow(<?= $id ?>)" class="btn btn-primary editRow"><i
                                                             class="fas fa-edit"></i></button>
@@ -137,21 +137,24 @@ $select = $conn->query("SELECT * FROM `users`");
                 url: 'userData.php',
                 data: formData,
                 success: function (response) {
-                    let textContent = $(response).text();
+                    let responseObj = JSON.parse(response);
+                    let result = responseObj.error || responseObj.message;
+                    let toastColor = responseObj.error ? 'linear-gradient(to right, red, orangered)' : 'linear-gradient(to right, #04364A, black)';
 
                     Toastify({
-                        text: textContent,
+                        text: result,
                         duration: 4000,
                         stopOnFocus: true,
                         position: "center",
                         style: {
-                            background: "linear-gradient(to right, #04364A, black)",
+                            background: toastColor,
                             borderRadius: "10px",
                         },
                         offset: {
                             y: 50
                         },
                     }).showToast();
+
                     $('#loader').hide();
                     $('#submit').show();
                     $('#userForm')[0].reset();
@@ -180,9 +183,30 @@ $select = $conn->query("SELECT * FROM `users`");
             });
         }
 
-        function deleteRow(id) {
+        function deleteRow(button, id) {
             $.ajax({
+                method: 'GET',
+                url: './deleteUser.php',
+                data: { id: id },
+                success: function (res) {
+                    console.log(res);
+                    let message = JSON.parse(res).message;
 
+                    Toastify({
+                        text: message,
+                        duration: 4000,
+                        stopOnFocus: true,
+                        position: 'center',
+                        style: {
+                            background: "linear-gradient(to right, red, orangered)",
+                            borderRadius: "10px",
+                        },
+                        offset: {
+                            y: 50
+                        },
+                    }).showToast();
+                    $(button).closest('tr').remove();
+                }
             })
         }
 
