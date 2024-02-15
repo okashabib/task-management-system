@@ -163,7 +163,7 @@ $select = $conn->query("SELECT * FROM `users`");
                     $('#userId').val('');
                     $('#staticBackdrop').modal('hide');
                     $('.modal-backdrop').remove();
-                    $('#userData').load(location.href + ' #userData');
+                    $('#dataTable').load(location.href + ' #dataTable');
                 }
             });
         });
