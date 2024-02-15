@@ -65,7 +65,7 @@ $select = $conn->query("SELECT * FROM `users`");
                             </div>
                         </div>
                     </div>
-                    <div class="card mb-4">
+                    <div class="card mb-4" id="dataTable">
                         <div class="card-header">
                             <i class="fas fa-users me-1"></i>
                             Users List
@@ -80,7 +80,7 @@ $select = $conn->query("SELECT * FROM `users`");
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody id="userData">
+                                <tbody>
                                     <?php
 
                                     $i = 1;
@@ -163,7 +163,7 @@ $select = $conn->query("SELECT * FROM `users`");
                     $('#userId').val('');
                     $('#staticBackdrop').modal('hide');
                     $('.modal-backdrop').remove();
-                    $('#userData').load(location.href + ' #userData');
+                    $('#dataTable').load(location.href + ' #dataTable');
                 }
             });
         });
