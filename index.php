@@ -193,14 +193,19 @@ $users = $conn->query("SELECT * FROM  `users`");
                 url: './taskData.php',
                 data: formData,
                 success: function (response) {
+                    let responseObj = JSON.parse(response);
+                    let result = responseObj.error || responseObj.message;
+                    let resEmoji = responseObj.error ? '✗ ' : '✓ ';
+                    let toastColor = responseObj.error ? 'linear-gradient(to right, red, orangered)' : 'linear-gradient(to right, #04364A, black)';
+
 
                     Toastify({
-                        text: response,
+                        text: resEmoji + result,
                         duration: 4000,
                         stopOnFocus: true,
                         position: "center",
                         style: {
-                            background: "linear-gradient(to right, #04364A, black)",
+                            background: toastColor,
                             borderRadius: "10px",
                         },
                         offset: {
@@ -214,6 +219,7 @@ $users = $conn->query("SELECT * FROM  `users`");
                     $('#taskId').val('');
                     $('#staticBackdrop').modal('hide');
                     $('.modal-backdrop').remove();
+                    $('#taskContainer').load(location.href + " #taskContainer");
                 }
             });
         });
@@ -239,11 +245,9 @@ $users = $conn->query("SELECT * FROM  `users`");
                     $('#endDate').val(dataModal.end_date);
                     $('#floatingSelect').val(dataModal.status);
                     $('#floatingSelectAssign').val(dataModal.assign);
-
                     $('#staticBackdrop').modal('show');
                 }
             })
-
         });
 
         $('#staticBackdrop').on('hidden.bs.modal', function () {

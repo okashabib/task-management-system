@@ -80,7 +80,7 @@ $select = $conn->query("SELECT * FROM `users`");
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="userData">
                                     <?php
 
                                     $i = 1;
@@ -124,6 +124,7 @@ $select = $conn->query("SELECT * FROM `users`");
     </div>
 
     <script>
+
         $('#userForm').submit(function (e) {
             e.preventDefault();
 
@@ -139,10 +140,11 @@ $select = $conn->query("SELECT * FROM `users`");
                 success: function (response) {
                     let responseObj = JSON.parse(response);
                     let result = responseObj.error || responseObj.message;
+                    let resEmoji = responseObj.error ? '✗ ' : '✓ ';
                     let toastColor = responseObj.error ? 'linear-gradient(to right, red, orangered)' : 'linear-gradient(to right, #04364A, black)';
 
                     Toastify({
-                        text: result,
+                        text: resEmoji + result,
                         duration: 4000,
                         stopOnFocus: true,
                         position: "center",
@@ -161,7 +163,8 @@ $select = $conn->query("SELECT * FROM `users`");
                     $('#userId').val('');
                     $('#staticBackdrop').modal('hide');
                     $('.modal-backdrop').remove();
-                },
+                    $('#userData').load(location.href + ' #userData');
+                }
             });
         });
 
