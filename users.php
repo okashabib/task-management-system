@@ -65,7 +65,7 @@ $select = $conn->query("SELECT * FROM `users`");
                             </div>
                         </div>
                     </div>
-                    <div class="card mb-4">
+                    <div class="card mb-4" id="dataTable">
                         <div class="card-header">
                             <i class="fas fa-users me-1"></i>
                             Users List
