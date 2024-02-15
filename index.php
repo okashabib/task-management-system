@@ -161,12 +161,13 @@ $users = $conn->query("SELECT * FROM  `users`");
                                         </ul>
                                         <div class="card-footer cardFooter d-flex align-items-center justify-content-between"
                                             data-card-id="<?php echo $id; ?>">
-                                            <a class="small text-white stretched-link" href="#">View Details</a>
-                                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                            <a class="small text-secondary text-decoration-none" style="cursor: pointer;">View
+                                                Details</a>
+                                            <div class="small text-primary"><i class="fas fa-angle-right"
+                                                    style="cursor: pointer;"></i></div>
                                         </div>
                                     </div>
                                 </div>
-
                             <?php }
                         } else {
                             echo 'Data not found';

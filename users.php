@@ -81,38 +81,7 @@ $select = $conn->query("SELECT * FROM `users`");
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-
-                                    $i = 1;
-                                    if ($select) {
-                                        while ($row = $select->fetch_assoc()) {
-                                            $id = $row['id'];
-                                            $name = $row['name'];
-                                            $username = $row['username'];
-
-                                            ?>
-                                            <tr class="data-tr" id="<?php echo $id ?>">
-                                                <td>
-                                                    <?php echo $i++; ?>
-                                                </td>
-                                                <td>
-                                                    <?php echo $name; ?>
-                                                </td>
-                                                <td>
-                                                    <?php echo $username; ?>
-                                                </td>
-                                                <td>
-                                                    <button onclick="deleteRow(this, <?= $id ?>)" class="btn btn-danger"><i
-                                                            class="fas fa-trash"></i></button>
-                                                    <button onclick="editRow(<?= $id ?>)" class="btn btn-primary editRow"><i
-                                                            class="fas fa-edit"></i></button>
-                                                </td>
-                                            </tr>
-
-                                            <?php
-                                        }
-                                    }
-                                    ?>
+                                    <?php include('fetchUser.php') ?>
                                 </tbody>
                             </table>
                         </div>
@@ -163,7 +132,24 @@ $select = $conn->query("SELECT * FROM `users`");
                     $('#userId').val('');
                     $('#staticBackdrop').modal('hide');
                     $('.modal-backdrop').remove();
-                    $('#dataTable').load(location.href + ' #dataTable');
+
+                    $.get(location.href, function (data) {
+                        var newContent = $(data).find('#dataTable').html();
+                        $('#dataTable').html(newContent);
+
+                        const datatablesSimple = document.getElementById('datatablesSimple');
+                        if (datatablesSimple) {
+                            new simpleDatatables.DataTable(datatablesSimple);
+                        }
+                    });
+
+
+                    // $('#dataTable').load(location.href + ' #dataTable', function () {
+                    //     const datatablesSimple = document.getElementById('datatablesSimple');
+                    //     if (datatablesSimple) {
+                    //         new simpleDatatables.DataTable(datatablesSimple);
+                    //     }
+                    // });
                 }
             });
         });
