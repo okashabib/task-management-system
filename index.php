@@ -160,11 +160,10 @@ $users = $conn->query("SELECT * FROM  `users`");
                                             </li>
                                         </ul>
                                         <div class="card-footer cardFooter d-flex align-items-center justify-content-between"
-                                            data-card-id="<?php echo $id; ?>">
-                                            <a class="small text-secondary text-decoration-none" style="cursor: pointer;">View
+                                            data-card-id="<?php echo $id; ?>" style="cursor: pointer;">
+                                            <a class="small text-secondary text-decoration-none">View
                                                 Details</a>
-                                            <div class="small text-primary"><i class="fas fa-angle-right"
-                                                    style="cursor: pointer;"></i></div>
+                                            <div class="small text-primary"><i class="fas fa-angle-right"></i></div>
                                         </div>
                                     </div>
                                 </div>
