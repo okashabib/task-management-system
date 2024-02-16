@@ -5,8 +5,9 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = $_POST['user'];
     $username = $_POST['username'];
+    $id = $_POST['id'];
 
-    $existing_username = "SELECT * FROM users WHERE username='$username'";
+    $existing_username = "SELECT * FROM users WHERE username='$username' AND id != '$id'";
     $result = mysqli_query($conn, $existing_username);
 
     if (mysqli_num_rows($result) > 0) {
@@ -18,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo json_encode(array('message' => 'User inserted successfully.'));
             }
         } else {
-            $id = $_POST['id'];
             $query = "UPDATE `users` SET `name`='$user', `username`='$username' WHERE `id`='$id'";
             if (mysqli_query($conn, $query)) {
                 echo json_encode(array('message' => 'User updated successfully.'));

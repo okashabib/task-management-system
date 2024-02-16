@@ -198,7 +198,6 @@ $users = $conn->query("SELECT * FROM  `users`");
                     let resEmoji = responseObj.error ? '✗ ' : '✓ ';
                     let toastColor = responseObj.error ? 'linear-gradient(to right, red, orangered)' : 'linear-gradient(to right, #04364A, black)';
 
-
                     Toastify({
                         text: resEmoji + result,
                         duration: 4000,
@@ -224,7 +223,7 @@ $users = $conn->query("SELECT * FROM  `users`");
             });
         });
 
-        $('.cardFooter').click(function (e) {
+        $(document).on('click', '.cardFooter', function (e) {
             e.preventDefault();
 
             let taskId = $(this).data('card-id');

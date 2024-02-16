@@ -50,6 +50,7 @@ $select = $conn->query("SELECT * FROM `users`");
                                         <input type="text" class="form-control" name="username" id="userName"
                                             placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"
                                             required>
+                                        <div id="usernameError" class="invalid-feedback"></div>
                                     </div>
 
                                     <div class="modal-footer">
@@ -112,44 +113,64 @@ $select = $conn->query("SELECT * FROM `users`");
                     let resEmoji = responseObj.error ? '✗ ' : '✓ ';
                     let toastColor = responseObj.error ? 'linear-gradient(to right, red, orangered)' : 'linear-gradient(to right, #04364A, black)';
 
-                    Toastify({
-                        text: resEmoji + result,
-                        duration: 4000,
-                        stopOnFocus: true,
-                        position: "center",
-                        style: {
-                            background: toastColor,
-                            borderRadius: "10px",
-                        },
-                        offset: {
-                            y: 50
-                        },
-                    }).showToast();
+                    if (responseObj.error) {
+                        $('#submit').show();
+                        $('#loader').hide();
 
-                    $('#loader').hide();
-                    $('#submit').show();
-                    $('#userForm')[0].reset();
-                    $('#userId').val('');
-                    $('#staticBackdrop').modal('hide');
-                    $('.modal-backdrop').remove();
+                        Toastify({
+                            text: resEmoji + result,
+                            duration: 4000,
+                            stopOnFocus: true,
+                            position: "center",
+                            style: {
+                                background: toastColor,
+                                borderRadius: "10px",
+                            },
+                            offset: {
+                                y: 50
+                            },
+                        }).showToast();
+                    } else {
+                        Toastify({
+                            text: resEmoji + result,
+                            duration: 4000,
+                            stopOnFocus: true,
+                            position: "center",
+                            style: {
+                                background: toastColor,
+                                borderRadius: "10px",
+                            },
+                            offset: {
+                                y: 50
+                            },
+                        }).showToast();
+                        $('#userName').removeClass('is-invalid');
+                        $('#usernameError').text('');
 
-                    $.get(location.href, function (data) {
-                        var newContent = $(data).find('#dataTable').html();
-                        $('#dataTable').html(newContent);
+                        $('#loader').hide();
+                        $('#submit').show();
+                        $('#userForm')[0].reset();
+                        $('#userId').val('');
+                        $('#staticBackdrop').modal('hide');
+                        $('.modal-backdrop').remove();
 
-                        const datatablesSimple = document.getElementById('datatablesSimple');
-                        if (datatablesSimple) {
-                            new simpleDatatables.DataTable(datatablesSimple);
-                        }
-                    });
+                        $.get(location.href, function (data) {
+                            var newContent = $(data).find('#dataTable').html();
+                            $('#dataTable').html(newContent);
 
+                            const datatablesSimple = document.getElementById('datatablesSimple');
+                            if (datatablesSimple) {
+                                new simpleDatatables.DataTable(datatablesSimple);
+                            }
+                        });
 
-                    // $('#dataTable').load(location.href + ' #dataTable', function () {
-                    //     const datatablesSimple = document.getElementById('datatablesSimple');
-                    //     if (datatablesSimple) {
-                    //         new simpleDatatables.DataTable(datatablesSimple);
-                    //     }
-                    // });
+                        // $('#dataTable').load(location.href + ' #dataTable', function () {
+                        //     const datatablesSimple = document.getElementById('datatablesSimple');
+                        //     if (datatablesSimple) {
+                        //         new simpleDatatables.DataTable(datatablesSimple);
+                        //     }
+                        // });
+                    }
                 }
             });
         });
