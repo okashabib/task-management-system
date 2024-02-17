@@ -15,16 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $assign = mysqli_real_escape_string($conn, $assign);
 
     if (empty($_POST['id'])) {
-        $insert_query = "INSERT INTO `create_task` (title, description, status, start_date, end_date, assign) VALUES ('$title', '$description', '$status', '$start_date', '$end_date', '$assign')";
+        $insert_query = "INSERT INTO `create_task` (title, description, status_id, start_date, end_date, user_id) VALUES ('$title', '$description', '$status', '$start_date', '$end_date', '$assign')";
         if (mysqli_query($conn, $insert_query)) {
             echo json_encode(array('message' => 'Task added successfully.'));
         } else {
             echo json_encode(array('error' => mysqli_error($conn)));
         }
     } else {
-
         $id = $_POST['id'];
-        $update_query = "UPDATE `create_task` SET `title`='$title', `description`='$description', `start_date`='$start_date', `end_date`='$end_date', `status`='$status', `assign`='$assign' WHERE `id`='$id'";
+        $update_query = "UPDATE `create_task` SET `title`='$title', `description`='$description', `start_date`='$start_date', `end_date`='$end_date', `status_id`='$status', `user_id`='$assign' WHERE `id`='$id'";
         if (mysqli_query($conn, $update_query)) {
             echo json_encode(array('message' => 'Task updated successfully.'));
         } else {

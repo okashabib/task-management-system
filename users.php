@@ -50,7 +50,6 @@ $select = $conn->query("SELECT * FROM `users`");
                                         <input type="text" class="form-control" name="username" id="userName"
                                             placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"
                                             required>
-                                        <div id="usernameError" class="invalid-feedback"></div>
                                     </div>
 
                                     <div class="modal-footer">
@@ -144,8 +143,6 @@ $select = $conn->query("SELECT * FROM `users`");
                                 y: 50
                             },
                         }).showToast();
-                        $('#userName').removeClass('is-invalid');
-                        $('#usernameError').text('');
 
                         $('#loader').hide();
                         $('#submit').show();

@@ -1,14 +1,15 @@
 <?php
 include('sep/php/connection.php');
-$select = $conn->query("SELECT * FROM  `create_task`");
+$select = $conn->query("SELECT ct.id, ct.title, ct.description, u.name, s.name as status, ct.start_date, ct.end_date FROM create_task as ct JOIN users as u ON ct.user_id = u.id JOIN status as s ON ct.status_id = s.id");
 $users = $conn->query("SELECT * FROM  `users`");
+$status = $conn->query("SELECT * FROM  `status`");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <?php @include 'sep/header.html'; ?>
-
+    
 <body class="sb-nav-fixed">
     <?php @include 'sep/navBar.html'; ?>
 
@@ -72,10 +73,21 @@ $users = $conn->query("SELECT * FROM  `users`");
                                                 <select class="form-select" id="floatingSelect"
                                                     aria-label="Floating label select example" name='status' required>
                                                     <option value="" disabled selected>Select Status</option>
-                                                    <option value="Todo">Todo</option>
-                                                    <option value="Progress">Progress</option>
-                                                    <option value="UAT">UAT</option>
-                                                    <option value="Done">Done</option>
+                                                    <?php
+                                                    if ($status) {
+                                                        while ($row = $status->fetch_assoc()) {
+                                                            $name = $row['name'];
+                                                            $id = $row['id'];
+                                                            ?>
+                                                            <option value='<?php echo $id; ?>'>
+                                                                <?php echo $name; ?>
+                                                            </option>
+                                                            <?php
+                                                        }
+                                                    } else {
+                                                        echo "Status not found!";
+                                                    }
+                                                    ?>
                                                 </select>
                                                 <label for="floatingSelect">Status</label>
                                             </div>
@@ -89,8 +101,9 @@ $users = $conn->query("SELECT * FROM  `users`");
                                                     if ($users) {
                                                         while ($row = $users->fetch_assoc()) {
                                                             $name = $row['name'];
+                                                            $id = $row['id'];
                                                             ?>
-                                                            <option value='<?php echo $name; ?>'>
+                                                            <option value='<?php echo $id; ?>'>
                                                                 <?php echo $name; ?>
                                                             </option>
                                                             <?php
@@ -130,7 +143,7 @@ $users = $conn->query("SELECT * FROM  `users`");
                                 $start_date = $row['start_date'];
                                 $end_date = $row['end_date'];
                                 $status = $row['status'];
-                                $assign = $row['assign'];
+                                $assign = $row['name'];
                                 ?>
 
                                 <div class="col-xl-3 col-md-6">
@@ -193,6 +206,7 @@ $users = $conn->query("SELECT * FROM  `users`");
                 url: './taskData.php',
                 data: formData,
                 success: function (response) {
+                    console.log(response)
                     let responseObj = JSON.parse(response);
                     let result = responseObj.error || responseObj.message;
                     let resEmoji = responseObj.error ? '✗ ' : '✓ ';
@@ -219,7 +233,7 @@ $users = $conn->query("SELECT * FROM  `users`");
                     $('#staticBackdrop').modal('hide');
                     $('.modal-backdrop').remove();
                     $('#taskContainer').load(location.href + " #taskContainer");
-                }
+                },
             });
         });
 
@@ -242,8 +256,8 @@ $users = $conn->query("SELECT * FROM  `users`");
                     $('#floatingTextarea').val(dataModal.description);
                     $('#startDate').val(dataModal.start_date);
                     $('#endDate').val(dataModal.end_date);
-                    $('#floatingSelect').val(dataModal.status);
-                    $('#floatingSelectAssign').val(dataModal.assign);
+                    $('#floatingSelect').val(dataModal.status_id);
+                    $('#floatingSelectAssign').val(dataModal.user_id);
                     $('#staticBackdrop').modal('show');
                 }
             })
