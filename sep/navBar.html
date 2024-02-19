@@ -1,9 +1,11 @@
+<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 
         <button class="btn btn-link btn-lg order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
-        <a class="navbar-brand ps-2" href="index.php">Task Management System</a>
+        <a id="tms" class="navbar-brand ps-2" href="index.php"></a>
 
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             <div class="input-group">
@@ -32,3 +34,12 @@
 
 
 </body>
+
+<script>
+    let type = new Typed('#tms', {
+        strings: ['Task Management System'],
+        loop: true,
+        backSpeed: 50,
+        typeSpeed: 50
+    });
+</script>
