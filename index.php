@@ -1,6 +1,22 @@
 <?php
 include('sep/php/connection.php');
-$select = $conn->query("SELECT ct.id, ct.title, ct.description, u.name, s.name as status, ct.start_date, ct.end_date FROM create_task as ct JOIN users as u ON ct.user_id = u.id JOIN status as s ON ct.status_id = s.id");
+
+$select = $conn->query("
+    SELECT 
+        ct.id,
+        ct.title,
+        ct.description,
+        u.name,
+        s.name as status,
+        ct.start_date,
+        ct.end_date
+    FROM
+        create_task as ct
+    JOIN
+        users as u ON ct.user_id = u.id
+    JOIN
+        status as s ON ct.status_id = s.id
+  ");
 $users = $conn->query("SELECT * FROM  `users`");
 $status = $conn->query("SELECT * FROM  `status`");
 ?>
@@ -9,7 +25,7 @@ $status = $conn->query("SELECT * FROM  `status`");
 <html lang="en">
 
 <?php @include 'sep/header.html'; ?>
-    
+
 <body class="sb-nav-fixed">
     <?php @include 'sep/navBar.html'; ?>
 
