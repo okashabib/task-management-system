@@ -10,18 +10,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $existing_username_query = "SELECT * FROM users WHERE username ='$username' AND id != '$id'";
     $existing_username_result = mysqli_query($conn, $existing_username_query);
 
-    $message = empty($id) ? 'User inserted successfully' : 'User updated succesfully';
-
     if (mysqli_num_rows($existing_username_result) > 0) {
         echo json_encode(array('error' => 'Username already exists. Please choose a different one!'));
     } else {
-        $query = empty($id) ? "INSERT INTO `users` (`name`, `username`) VALUES ('$user', '$username')" : "UPDATE `users` SET `name`='$user', `username`='$username' WHERE `id`='$id'";
-        if (mysqli_query($conn, $query)) {
-            echo json_encode(array('success' => true, 'message' => $message));
+
+        if (empty($id)) {
+            $query = "INSERT INTO `users` (`name`, `username`) VALUES ('$user', '$username')";
+            $message = 'User inserted successfully';
         } else {
-            echo json_encode(array('success' => false, 'message' => 'Error :' . mysqli_error($conn)));
+            $query = "UPDATE `users` SET `name`='$user', `username`='$username' WHERE `id`='$id'";
+            $message = 'User updated successfully';
+        }
+
+        if (mysqli_query($conn, $query)) {
+            $response['message'] = $message;
+        } else {
+            $response['error'] = 'Error :' . mysqli_error($conn);
         }
     }
+    echo json_encode($response);
 }
 
 ?>

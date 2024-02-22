@@ -24,13 +24,13 @@ $status = $conn->query("SELECT * FROM  `status`");
 <!DOCTYPE html>
 <html lang="en">
 
-<?php @include 'sep/header.html'; ?>
+<?php include 'sep/header.html'; ?>
 
 <body class="sb-nav-fixed">
-    <?php @include 'sep/navBar.html'; ?>
+    <?php include 'sep/navBar.html'; ?>
 
     <div id="layoutSidenav">
-        <?php @include 'sep/sideBar.html'; ?>
+        <?php include 'sep/sideBar.html'; ?>
 
         <div id="layoutSidenav_content">
             <main>
@@ -204,7 +204,7 @@ $status = $conn->query("SELECT * FROM  `status`");
                     </div>
                 </div>
             </main>
-            <?php @include('sep/footer.html'); ?>
+            <?php include('sep/footer.html'); ?>
         </div>
     </div>
 
